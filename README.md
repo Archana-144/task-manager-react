@@ -1,69 +1,34 @@
-# React + Vite
+# TaskFlow - Task Management Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TaskFlow is a modern React-based Task Management Application developed using React JS, Context API, Hooks, Routing, and API Integration.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware# TaskFlow - Task Management Application
-
-TaskFlow is a modern React-based Task Management Application developed using React, Context API, Hooks, Routing, and API Integration.
-
-This project allows users to:
-- Login
+The application allows users to:
+- Login into the application
 - View tasks
 - Add tasks
 - Edit tasks
 - Delete tasks
 - Update task status
-- Search tasks
-- Filter tasks
+- Search and filter tasks
 - Navigate between pages
 
 ---
 
 # Features
 
-## Authentication
-- Login Page
+- User Login Authentication
 - Form Validation
-- Password Visibility Toggle
-
-## Dashboard
-- Welcome user using Context API
-- Statistics cards
-- Responsive modern UI
-
-## Task Management
-- Fetch tasks from API
-- Add new tasks
-- Edit existing tasks
-- Delete tasks
-- Update task status dynamically
-- Assign tasks to users
-
-## Search & Filter
-- Search tasks by name
-- Filter tasks by status
-
-## Routing
-- Home Page
-- Add Task Page
-- Login Page
-
-## UI Features
-- Dark modern dashboard UI
+- Context API Integration
+- API Integration
+- Add Task
+- Edit Task
+- Delete Task
+- Update Task Status
+- Search Tasks
+- Filter Tasks
 - Responsive Design
-- Animated Loader
-- Reusable Components
+- Loader Animation
+- Modern Dashboard UI
 
 ---
 
@@ -73,38 +38,122 @@ This project allows users to:
 - Vite
 - React Router DOM
 - Context API
+- JavaScript ES6
 - CSS3
-- JavaScript (ES6)
 - Fetch API
+- Local Storage
+
+---
+
+# React Concepts Used
+
+- Functional Components
+- useState
+- useEffect
+- Context API
+- Custom Hooks
+- Routing
+- Props
+- CRUD Operations
+- Conditional Rendering
+- Event Handling
+
+---
+
+# API Used
+
+https://jsonplaceholder.typicode.com/todos
 
 ---
 
 # Folder Structure
 
-```bash
 src/
-│
+
+├── assets/
+
 ├── components/
 │   ├── Navbar.jsx
 │   ├── Footer.jsx
 │   ├── Loader.jsx
 │   └── TaskCard.jsx
-│
+
 ├── context/
 │   └── UserContext.jsx
-│
+
+├── hooks/
+│   └── useFetchTasks.js
+
 ├── pages/
 │   ├── Login.jsx
 │   ├── Home.jsx
 │   └── AddTask.jsx
-│
+
 ├── routes/
 │   └── AppRoutes.jsx
-│
+
 ├── services/
 │   └── taskService.js
-│
+
+├── utils/
+│   └── validation.js
+
 ├── App.jsx
 ├── App.css
 ├── index.css
-└── main.jsx lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+└── main.jsx
+
+---
+
+# Setup Instructions
+
+1. Clone the repository
+
+git clone <your-github-repository-link>
+
+2. Navigate to project folder
+
+cd task-manager-react
+
+3. Install dependencies
+
+npm install
+
+4. Run the development server
+
+npm run dev
+
+---
+
+# UI Features
+
+- Clean Layout
+- Proper Spacing
+- Responsive Design
+- Media Queries
+- Dark Theme UI
+- Reusable Components
+- Professional Dashboard Design
+
+---
+
+# Future Improvements
+
+- Pagination
+- Backend Integration
+- Authentication API
+- Database Storage
+- Toast Notifications
+- Drag and Drop Tasks
+
+---
+
+# GitHub Repository
+
+https://github.com/Archana-144/task-manager-react
+
+---
+
+# Author
+
+Archana B Y
