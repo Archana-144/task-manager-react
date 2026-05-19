@@ -40,7 +40,7 @@ function Home() {
 
   const [filter, setFilter] = useState("All");
 
-  const [displayLimit] = useState(10);
+  const [displayLimit] = useState(9);
 
   // REDIRECT IF NOT LOGGED IN
 
