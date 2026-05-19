@@ -1,12 +1,16 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 import "../App.css";
+
 
 function Navbar() {
 
   const navigate = useNavigate();
 
   const location = useLocation();
+  const { user } = useContext(UserContext);
 
   // LOGOUT
 
@@ -28,9 +32,9 @@ function Navbar() {
 
       </div>
 
-      {/* NAV LINKS */}
+      {/* NAV LINKS - CENTER */}
 
-      <div className="nav-links">
+      <div className="nav-links-center">
 
         <Link
           to="/home"
@@ -41,7 +45,7 @@ function Navbar() {
           }
         >
 
-          Home
+          <span className="nav-icon">🏠</span> Home
 
         </Link>
 
@@ -58,8 +62,14 @@ function Navbar() {
 
         </Link>
 
-        {/* LOGOUT */}
+      </div>
 
+      {/* USER NAME AND LOGOUT */}
+
+      <div className="nav-right">
+        {user && (
+          <span className="user-name">{user.name}</span>
+        )}
         <button
           className="logout-btn"
           onClick={handleLogout}
@@ -68,7 +78,6 @@ function Navbar() {
           Logout
 
         </button>
-
       </div>
 
     </nav>

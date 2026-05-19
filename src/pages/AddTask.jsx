@@ -16,7 +16,7 @@ function AddTask() {
 
   const location = useLocation();
 
-  const { user } = useContext(UserContext);
+  const { user, addTask } = useContext(UserContext);
 
   // REDIRECT IF NOT LOGGED IN
 
@@ -95,7 +95,7 @@ function AddTask() {
 
     };
 
-    console.log(newTask);
+    addTask(newTask);
 
     // SUCCESS
 

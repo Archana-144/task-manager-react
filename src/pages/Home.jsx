@@ -26,7 +26,7 @@ import "../App.css";
 
 function Home() {
 
-  const { user } = useContext(UserContext);
+  const { user, addedTasks } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -66,7 +66,9 @@ function Home() {
 
           const data = await fetchTasks();
 
-          setTasks(data);
+          const allTasks = [...data, ...addedTasks];
+
+          setTasks(allTasks);
 
           setLoading(false);
 
@@ -86,7 +88,7 @@ function Home() {
 
     loadTasks();
 
-  }, []);
+  }, [addedTasks]);
 
   // DELETE TASK
 
