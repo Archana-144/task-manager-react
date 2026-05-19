@@ -7,7 +7,6 @@ import {
   useState
 
 } from "react";
-import useFetchTasks from "../hooks/useFetchTasks";
 
 import { useNavigate } from "react-router-dom";
 
@@ -21,24 +20,31 @@ import Loader from "../components/Loader";
 
 import TaskCard from "../components/TaskCard";
 
-import { fetchTasks } from "../services/taskService";
-
 import "../App.css";
 
 function Home() {
 
-  const { user, addedTasks } = useContext(UserContext);
+  // CONTEXT API
 
-  
+  const {
+
+    user,
+
+    tasks,
+
+    setTasks
+
+  } = useContext(UserContext);
 
   // STATES
 
-  
   const [search, setSearch] = useState("");
 
   const [filter, setFilter] = useState("All");
 
   const [displayLimit] = useState(9);
+
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -54,33 +60,45 @@ function Home() {
 
   }, [user, navigate]);
 
-  // FETCH TASKS
+  // LOADER
 
-  const {
+  useEffect(() => {
 
-  tasks,
+    setTimeout(() => {
 
-  setTasks,
+      setLoading(false);
 
-  loading
+    }, 500);
 
-} = useFetchTasks();
+  }, []);
 
   // DELETE TASK
 
   function deleteTask(id) {
 
-    setTasks((prevTasks) => {
+    const updatedTasks = tasks.filter(
 
-      const updatedTasks = prevTasks.filter(
+      (task) => task.id !== id
 
-        (task) => task.id !== id
+    );
 
-      );
+    setTasks(updatedTasks);
 
-      return updatedTasks;
+    localStorage.setItem(
 
-    });
+      "tasks",
+
+      JSON.stringify(
+
+        updatedTasks.filter(
+
+          (task) => task.id > 200
+
+        )
+
+      )
+
+    );
 
   }
 
@@ -107,6 +125,22 @@ function Home() {
     });
 
     setTasks(updatedTasks);
+
+    localStorage.setItem(
+
+      "tasks",
+
+      JSON.stringify(
+
+        updatedTasks.filter(
+
+          (task) => task.id > 200
+
+        )
+
+      )
+
+    );
 
   }
 
@@ -301,23 +335,27 @@ function Home() {
 
         <div className="task-grid">
 
-          {filteredTasks.slice(0, displayLimit).map((task) => (
+          {filteredTasks
 
-            <TaskCard
+            .slice(0, displayLimit)
 
-              key={task.id}
+            .map((task) => (
 
-              taskData={task}
+              <TaskCard
 
-              deleteTask={deleteTask}
+                key={task.id}
 
-              updateStatus={updateStatus}
+                taskData={task}
 
-              editTask={editTask}
+                deleteTask={deleteTask}
 
-            />
+                updateStatus={updateStatus}
 
-          ))}
+                editTask={editTask}
+
+              />
+
+            ))}
 
         </div>
 
