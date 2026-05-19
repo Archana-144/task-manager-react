@@ -76,6 +76,12 @@ button{
   font-size:38px;
 
   font-weight:800;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
 }
 /* LOGO IMAGE */
 
@@ -897,15 +903,6 @@ button{
   }
 }
 /* NAVBAR LOGO */
-
-.logo{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-}
 
 .navbar-logo{
 

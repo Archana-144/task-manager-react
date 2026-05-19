@@ -7,6 +7,7 @@ import {
   useState
 
 } from "react";
+import useFetchTasks from "../hooks/useFetchTasks";
 
 import { useNavigate } from "react-router-dom";
 
@@ -28,19 +29,18 @@ function Home() {
 
   const { user, addedTasks } = useContext(UserContext);
 
-  const navigate = useNavigate();
+  
 
   // STATES
 
-  const [tasks, setTasks] = useState([]);
-
-  const [loading, setLoading] = useState(true);
-
+  
   const [search, setSearch] = useState("");
 
   const [filter, setFilter] = useState("All");
 
   const [displayLimit] = useState(9);
+
+  const navigate = useNavigate();
 
   // REDIRECT IF NOT LOGGED IN
 
@@ -56,39 +56,15 @@ function Home() {
 
   // FETCH TASKS
 
-  useEffect(() => {
+  const {
 
-    async function loadTasks() {
+  tasks,
 
-      try {
+  setTasks,
 
-        setTimeout(async () => {
+  loading
 
-          const data = await fetchTasks();
-
-          const allTasks = [...data, ...addedTasks];
-
-          setTasks(allTasks);
-
-          setLoading(false);
-
-        }, 500);
-
-      }
-
-      catch (error) {
-
-        console.log(error);
-
-        setLoading(false);
-
-      }
-
-    }
-
-    loadTasks();
-
-  }, [addedTasks]);
+} = useFetchTasks();
 
   // DELETE TASK
 
