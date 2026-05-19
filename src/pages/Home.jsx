@@ -150,7 +150,7 @@ function Home() {
 
     const matchesSearch =
 
-      (task.task || "")
+      task.task
         .toLowerCase()
         .includes(search.toLowerCase());
 
