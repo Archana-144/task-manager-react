@@ -30,6 +30,64 @@ function Navbar() {
 
       <div className="logo">
 
+        <div className="login-logo">
+
+          <svg
+
+            width="40"
+
+            height="40"
+
+            viewBox="0 0 100 110"
+
+            xmlns="http://www.w3.org/2000/svg"
+
+          >
+
+            <defs>
+
+              <linearGradient
+
+                id="purpleGrad"
+
+                x1="0%"
+
+                y1="0%"
+
+                x2="100%"
+
+                y2="100%"
+
+              >
+
+                <stop offset="0%" stopColor="#8b7cff" />
+
+                <stop offset="50%" stopColor="#7c6cff" />
+
+                <stop offset="100%" stopColor="#5a4fd4" />
+
+              </linearGradient>
+
+            </defs>
+
+            <polygon
+
+              points="50,15 85,38 85,85 50,108 15,85 15,38"
+
+              fill="none"
+
+              stroke="url(#purpleGrad)"
+
+              strokeWidth="5"
+
+              strokeLinejoin="round"
+
+            />
+
+          </svg>
+
+        </div>
+
         <h2>TaskFlow</h2>
 
       </div>

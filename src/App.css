@@ -85,12 +85,13 @@ button{
 }
 
 /* LOGO */
-
 .logo{
 
   display:flex;
 
   align-items:center;
+
+  gap:16px;
 }
 
 .logo h2{
@@ -761,7 +762,7 @@ button{
 
   background:#3a2b10;
 
-  color:#fbbf24;
+  color:#b08519;
 }
 
 .completed{
@@ -826,11 +827,11 @@ button{
 
   flex:1;
 
-  background:#3d1719;
+  background:#cc121e;
 
-  border:1px solid #5d2328;
+  border:1px solid #bd3b46;
 
-  color:#ff5b61;
+  color:white;
 
   padding:12px;
 
@@ -841,6 +842,7 @@ button{
   font-weight:600;
 
   transition:0.3s ease;
+  
 }
 
 .delete-btn:hover{
