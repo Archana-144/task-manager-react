@@ -42,9 +42,11 @@ function Home() {
 
   const [filter, setFilter] = useState("All");
 
-  const [displayLimit] = useState(9);
-
   const [loading, setLoading] = useState(true);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const tasksPerPage = 9;
 
   const navigate = useNavigate();
 
@@ -71,6 +73,14 @@ function Home() {
     }, 500);
 
   }, []);
+
+  // RESET PAGE ON SEARCH/FILTER CHANGE
+
+  useEffect(() => {
+
+    setCurrentPage(1);
+
+  }, [search, filter]);
 
   // DELETE TASK
 
@@ -200,6 +210,30 @@ function Home() {
 
   ).length;
 
+  // PAGINATION
+
+  const totalPages = Math.ceil(
+
+    filteredTasks.length / tasksPerPage
+
+  );
+
+  const startIndex =
+
+    (currentPage - 1) * tasksPerPage;
+
+  const endIndex =
+
+    startIndex + tasksPerPage;
+
+  const paginatedTasks = filteredTasks.slice(
+
+    startIndex,
+
+    endIndex
+
+  );
+
   return (
 
     <div>
@@ -214,9 +248,7 @@ function Home() {
 
           <h1>
 
-            Welcome
-
-            {" "}
+            Welcome{" "}
 
             <span>
 
@@ -278,7 +310,15 @@ function Home() {
 
         <div className="search-filter">
 
+          {/* SEARCH */}
+
           <div className="search-box">
+
+            <span className="search-icon">
+
+              🔍
+
+            </span>
 
             <input
               type="text"
@@ -291,36 +331,100 @@ function Home() {
 
           </div>
 
+          {/* FILTERS */}
+
           <div className="filter-buttons">
 
             <button
+
+              className={
+
+                filter === "All"
+
+                  ? "active-filter"
+
+                  : ""
+
+              }
+
               onClick={() => setFilter("All")}
+
             >
+
               All
+
             </button>
 
             <button
+
+              className={
+
+                filter === "In Progress"
+
+                  ? "active-filter"
+
+                  : ""
+
+              }
+
               onClick={() =>
+
                 setFilter("In Progress")
+
               }
+
             >
+
               In Progress
+
             </button>
 
             <button
+
+              className={
+
+                filter === "Completed"
+
+                  ? "active-filter"
+
+                  : ""
+
+              }
+
               onClick={() =>
+
                 setFilter("Completed")
+
               }
+
             >
+
               Completed
+
             </button>
 
             <button
-              onClick={() =>
-                setFilter("Hold")
+
+              className={
+
+                filter === "Hold"
+
+                  ? "active-filter"
+
+                  : ""
+
               }
+
+              onClick={() =>
+
+                setFilter("Hold")
+
+              }
+
             >
+
               Hold
+
             </button>
 
           </div>
@@ -331,33 +435,217 @@ function Home() {
 
         {loading && <Loader />}
 
+        {/* TASK COUNT */}
+
+        {!loading && filteredTasks.length > 0 && (
+
+          <p className="tasks-info">
+
+            Showing {
+
+              paginatedTasks.length
+
+            } of {
+
+              filteredTasks.length
+
+            } tasks
+
+          </p>
+
+        )}
+
         {/* TASK GRID */}
 
         <div className="task-grid">
 
-          {filteredTasks
+          {paginatedTasks.map((task) => (
 
-            .slice(0, displayLimit)
+            <TaskCard
 
-            .map((task) => (
+              key={task.id}
 
-              <TaskCard
+              taskData={task}
 
-                key={task.id}
+              deleteTask={deleteTask}
 
-                taskData={task}
+              updateStatus={updateStatus}
 
-                deleteTask={deleteTask}
+              editTask={editTask}
 
-                updateStatus={updateStatus}
+            />
 
-                editTask={editTask}
+          ))}
 
-              />
+        </div>
+
+        {/* PAGINATION */}
+
+        {!loading && totalPages > 1 && (
+
+          <div className="pagination">
+
+            {/* FIRST */}
+
+            <button
+
+              onClick={() => setCurrentPage(1)}
+
+              disabled={currentPage === 1}
+
+              className="pagination-btn"
+
+            >
+
+              «
+
+            </button>
+
+            {/* PREVIOUS */}
+
+            <button
+
+              onClick={() =>
+
+                setCurrentPage((prev) =>
+
+                  Math.max(prev - 1, 1)
+
+                )
+
+              }
+
+              disabled={currentPage === 1}
+
+              className="pagination-btn"
+
+            >
+
+              ‹
+
+            </button>
+
+            {/* PAGE NUMBERS */}
+
+            {Array.from(
+
+              {
+
+                length: Math.min(5, totalPages),
+
+              },
+
+              (_, i) => {
+
+                const offset = Math.max(
+
+                  0,
+
+                  Math.min(
+
+                    currentPage - 3,
+
+                    totalPages - 5
+
+                  )
+
+                );
+
+                return offset + i + 1;
+
+              }
+
+            ).map((page) => (
+
+              <button
+
+                key={page}
+
+                onClick={() =>
+
+                  setCurrentPage(page)
+
+                }
+
+                className={
+
+                  currentPage === page
+
+                    ? "pagination-btn active"
+
+                    : "pagination-btn"
+
+                }
+
+              >
+
+                {page}
+
+              </button>
 
             ))}
 
-        </div>
+            {/* NEXT */}
+
+            <button
+
+              onClick={() =>
+
+                setCurrentPage((prev) =>
+
+                  Math.min(
+
+                    prev + 1,
+
+                    totalPages
+
+                  )
+
+                )
+
+              }
+
+              disabled={
+
+                currentPage === totalPages
+
+              }
+
+              className="pagination-btn"
+
+            >
+
+              ›
+
+            </button>
+
+            {/* LAST */}
+
+            <button
+
+              onClick={() =>
+
+                setCurrentPage(totalPages)
+
+              }
+
+              disabled={
+
+                currentPage === totalPages
+
+              }
+
+              className="pagination-btn"
+
+            >
+
+              »
+
+            </button>
+
+          </div>
+
+        )}
 
       </div>
 

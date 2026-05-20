@@ -1,15 +1,17 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
+
 import { useContext } from "react";
+
 import { UserContext } from "../context/UserContext";
 
 import "../App.css";
-
 
 function Navbar() {
 
   const navigate = useNavigate();
 
   const location = useLocation();
+
   const { user } = useContext(UserContext);
 
   // LOGOUT
@@ -28,11 +30,11 @@ function Navbar() {
 
       <div className="logo">
 
-        TaskFlow
+        <h2>TaskFlow</h2>
 
       </div>
 
-      {/* NAV LINKS - CENTER */}
+      {/* NAV LINKS */}
 
       <div className="nav-links-center">
 
@@ -45,7 +47,13 @@ function Navbar() {
           }
         >
 
-          <span className="nav-icon">🏠</span> Home
+          <span className="nav-icon">
+
+            🏠
+
+          </span>
+
+          Home
 
         </Link>
 
@@ -58,26 +66,38 @@ function Navbar() {
           }
         >
 
-          Add Task
+          + Add Task
 
         </Link>
 
       </div>
 
-      {/* USER NAME AND LOGOUT */}
+      {/* RIGHT SIDE */}
 
       <div className="nav-right">
+
         {user && (
-          <span className="user-name">{user.name}</span>
+
+          <span className="user-name">
+
+            {user.name}
+
+          </span>
+
         )}
+
         <button
+
           className="logout-btn"
+
           onClick={handleLogout}
+
         >
 
           Logout
 
         </button>
+
       </div>
 
     </nav>

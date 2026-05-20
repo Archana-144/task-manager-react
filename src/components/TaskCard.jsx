@@ -20,7 +20,7 @@ function TaskCard({
 
       <p className="task-id">
 
-        Task #{taskData.id}
+        #{taskData.id}
 
       </p>
 
@@ -32,74 +32,43 @@ function TaskCard({
 
       </h2>
 
-      {/* STATUS + ASSIGNED */}
+      {/* STATUS + ASSIGNED ROW */}
 
-      <div className="task-bottom">
+      <div className="task-status-assigned">
 
-        {/* STATUS */}
+        {/* STATUS BADGE */}
 
-        <select
+        <div
 
-          className={`status ${
+          className={`status-badge ${
 
-            taskData.status === "Completed"? "completed" : taskData.status === "Hold"? "hold" : "inprogress"
- 
+            taskData.status === "Completed"
+
+              ? "completed"
+
+              : taskData.status === "Hold"
+
+              ? "hold"
+
+              : "inprogress"
 
           }`}
 
-          value={taskData.status}
-
-          onChange={(e) =>
-
-            updateStatus(
-
-              taskData.id,
-
-              e.target.value
-
-            )
-
-          }
-
         >
 
-          <option value="In Progress">
+          {taskData.status}
 
-            In Progress
+        </div>
 
-          </option>
+        {/* ASSIGNED TO */}
 
-          <option value="Completed">
+        <p className="assigned-to">
 
-            Completed
+          👤 {taskData.assignedTo || "Unassigned"}
 
-          </option>
-
-          <option value="Hold">
-
-            Hold
-
-          </option>
-
-        </select>
+        </p>
 
       </div>
-
-      {/* ASSIGNED USER */}
-
-      <p className="assigned">
-
-        Assigned To :
-
-        {" "}
-
-        <strong>
-
-          {taskData.assignedTo || "Not Assigned"}
-
-        </strong>
-
-      </p>
 
       {/* BUTTONS */}
 
@@ -115,7 +84,7 @@ function TaskCard({
 
         >
 
-          Edit
+          - Edit
 
         </button>
 
@@ -133,7 +102,7 @@ function TaskCard({
 
         >
 
-          Delete
+         🗑 Delete
 
         </button>
 
