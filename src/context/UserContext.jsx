@@ -8,17 +8,11 @@ import {
 
 } from "react";
 
-import { fetchTasks } from "../services/taskService";
-
 export const UserContext = createContext();
 
 function UserProvider({ children }) {
 
-  // USER STATE
-
   const [user, setUser] = useState(null);
-
-  // TASK STATE
 
   const [tasks, setTasks] = useState([]);
 
@@ -26,71 +20,63 @@ function UserProvider({ children }) {
 
   useEffect(() => {
 
-    async function loadTasks() {
+    const storedTasks = JSON.parse(
 
-      // FETCH API TASKS
+      localStorage.getItem("tasks")
 
-      const apiTasks = await fetchTasks();
+    );
 
-      // LOCAL STORAGE TASKS
+    if (storedTasks) {
 
-      const localTasks =
-
-        JSON.parse(
-
-          localStorage.getItem("tasks")
-
-        ) || [];
-
-      // MERGE BOTH
-
-      setTasks([
-
-        ...localTasks,
-
-        ...apiTasks
-
-      ]);
+      setTasks(storedTasks);
 
     }
 
-    loadTasks();
-
   }, []);
 
-  // ADD TASK
+  // SAVE TASKS
 
-  function addTask(newTask) {
-
-    const updatedTasks = [
-
-      newTask,
-
-      ...tasks
-
-    ];
-
-    // UPDATE STATE
-
-    setTasks(updatedTasks);
-
-    // SAVE ONLY CUSTOM TASKS
+  useEffect(() => {
 
     localStorage.setItem(
 
       "tasks",
 
-      JSON.stringify(
-
-        updatedTasks.filter(
-
-          (task) => task.id > 200
-
-        )
-
-      )
+      JSON.stringify(tasks)
 
     );
+
+  }, [tasks]);
+
+  // ADD TASK
+
+  function addTask(task) {
+
+    setTasks((prev) => [
+
+      ...prev,
+
+      task,
+
+    ]);
+
+  }
+
+  // UPDATE TASK
+
+  function updateTask(updatedTask) {
+
+    const updatedTasks = tasks.map((task) =>
+
+      task.id === updatedTask.id
+
+        ? updatedTask
+
+        : task
+
+    );
+
+    setTasks(updatedTasks);
 
   }
 
@@ -108,7 +94,9 @@ function UserProvider({ children }) {
 
         setTasks,
 
-        addTask
+        addTask,
+
+        updateTask,
 
       }}
 

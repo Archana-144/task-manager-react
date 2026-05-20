@@ -20,6 +20,8 @@ import Loader from "../components/Loader";
 
 import TaskCard from "../components/TaskCard";
 
+import { fetchTasks } from "../services/taskService";
+
 import "../App.css";
 
 function Home() {
@@ -62,15 +64,79 @@ function Home() {
 
   }, [user, navigate]);
 
-  // LOADER
+  // LOAD TASKS
 
   useEffect(() => {
 
-    setTimeout(() => {
+    async function loadTasks() {
 
-      setLoading(false);
+      try {
 
-    }, 500);
+        // PREVENT DUPLICATES
+
+        if (tasks.length > 0) {
+
+          setLoading(false);
+
+          return;
+
+        }
+
+        // FETCH API TASKS
+
+        const apiTasks = await fetchTasks();
+
+        // GET LOCAL TASKS
+
+        const localTasks = JSON.parse(
+
+          localStorage.getItem("tasks")
+
+        ) || [];
+
+        // REMOVE DUPLICATES
+
+        const uniqueLocalTasks = localTasks.filter(
+
+          (localTask) =>
+
+            !apiTasks.some(
+
+              (apiTask) =>
+
+                apiTask.id === localTask.id
+
+            )
+
+        );
+
+        // FINAL TASKS
+
+        setTasks([
+
+          ...apiTasks,
+
+          ...uniqueLocalTasks,
+
+        ]);
+
+      }
+
+      catch (error) {
+
+        console.log(error);
+
+      }
+
+      finally {
+
+        setLoading(false);
+
+      }
+
+    }
+
+    loadTasks();
 
   }, []);
 
@@ -310,8 +376,6 @@ function Home() {
 
         <div className="search-filter">
 
-          {/* SEARCH */}
-
           <div className="search-box">
 
             <span className="search-icon">
@@ -330,8 +394,6 @@ function Home() {
             />
 
           </div>
-
-          {/* FILTERS */}
 
           <div className="filter-buttons">
 
@@ -485,8 +547,6 @@ function Home() {
 
           <div className="pagination">
 
-            {/* FIRST */}
-
             <button
 
               onClick={() => setCurrentPage(1)}
@@ -500,8 +560,6 @@ function Home() {
               «
 
             </button>
-
-            {/* PREVIOUS */}
 
             <button
 
@@ -524,8 +582,6 @@ function Home() {
               ‹
 
             </button>
-
-            {/* PAGE NUMBERS */}
 
             {Array.from(
 
@@ -585,8 +641,6 @@ function Home() {
 
             ))}
 
-            {/* NEXT */}
-
             <button
 
               onClick={() =>
@@ -618,8 +672,6 @@ function Home() {
               ›
 
             </button>
-
-            {/* LAST */}
 
             <button
 

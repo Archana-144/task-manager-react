@@ -16,7 +16,15 @@ function AddTask() {
 
   const location = useLocation();
 
-  const { user, addTask } = useContext(UserContext);
+  const {
+
+  user,
+
+  addTask,
+
+  updateTask
+
+} = useContext(UserContext);
 
   // REDIRECT IF NOT LOGGED IN
 
@@ -57,31 +65,61 @@ function AddTask() {
   const [message, setMessage] = useState("");
 
   // SUBMIT FUNCTION
+// SUBMIT FUNCTION
 
-  function handleSubmit(e) {
+function handleSubmit(e) {
 
-    e.preventDefault();
+  e.preventDefault();
 
-    // VALIDATION
+  // VALIDATION
 
-    if (
+  if (
 
-      task === "" ||
+    task === "" ||
 
-      assignedTo === ""
+    assignedTo === ""
 
-    ) {
+  ) {
 
-      setMessage(
+    setMessage(
 
-        "All fields are required"
+      "All fields are required"
 
-      );
+    );
 
-      return;
-    }
+    return;
 
-    // CREATE NEW TASK
+  }
+
+  // EDIT MODE
+
+  if (existingTask) {
+
+    const updatedTask = {
+
+      ...existingTask,
+
+      task,
+
+      status,
+
+      assignedTo,
+
+    };
+
+    updateTask(updatedTask);
+
+    alert(
+
+      "Task Updated Successfully"
+
+    );
+
+  }
+
+  // ADD MODE
+
+  else {
 
     const newTask = {
 
@@ -97,21 +135,17 @@ function AddTask() {
 
     addTask(newTask);
 
-    // SUCCESS
-
     alert(
 
-      existingTask
-
-        ? "Task Updated Successfully"
-
-        : "Task Added Successfully"
+      "Task Added Successfully"
 
     );
 
-    navigate("/home");
-
   }
+
+  navigate("/home");
+
+}
 
   return (
 
@@ -125,19 +159,33 @@ function AddTask() {
 
         <div className="add-task-card">
 
-          <h1>
+         {
 
-            {
+  existingTask && (
 
-              existingTask
+    <p className="edit-task-id">
 
-                ? "Edit Task"
+      #{existingTask.id}
 
-                : "Add New Task"
+    </p>
 
-            }
+  )
 
-          </h1>
+}
+
+<h1>
+
+  {
+
+    existingTask
+
+      ? "Edit Task"
+
+      : "Add New Task"
+
+  }
+
+</h1>
 
           {/* FORM */}
 
@@ -161,75 +209,91 @@ function AddTask() {
             />
 
             {/* STATUS */}
+<div className="form-row">
 
-            <label>
+  <div>
 
-              STATUS
+    <label>
 
-            </label>
+      STATUS
 
-            <select
-              value={status}
-              onChange={(e) =>
-                setStatus(e.target.value)
-              }
-            >
+    </label>
 
-              <option value="In Progress">
+    <select
+      value={status}
+      onChange={(e) =>
+        setStatus(e.target.value)
+      }
+    >
 
-                In Progress
+      <option value="In Progress">
 
-              </option>
+        In Progress
 
-              <option value="Completed">
+      </option>
 
-                Completed
+      <option value="Completed">
 
-              </option>
+        Completed
 
-              <option value="Hold">
+      </option>
 
-                Hold
+      <option value="Hold">
 
-              </option>
+        Hold
 
-            </select>
+      </option>
 
-            {/* ASSIGNED USER */}
+    </select>
 
-            <label>
+  </div>
 
-              ASSIGNED USER
+  <div>
 
-            </label>
+    <label>
 
-            <input
-              type="text"
-              placeholder="Assign task to user"
-              value={assignedTo}
-              onChange={(e) =>
-                setAssignedTo(e.target.value)
-              }
-            />
+      ASSIGNED TO
 
+    </label>
+
+    <input
+      type="text"
+      placeholder="Enter username"
+      value={assignedTo}
+      onChange={(e) =>
+        setAssignedTo(e.target.value)
+      }
+    />
+
+  </div>
+
+</div>
             {/* BUTTON */}
 
-            <button
-              className="login-btn"
-              type="submit"
-            >
+           <div className="edit-buttons">
 
-              {
+  <button
+    className="save-btn"
+    type="submit"
+  >
 
-                existingTask
+    ✓ Save
 
-                  ? "Update Task"
+  </button>
 
-                  : "Add Task"
+  <button
+    type="button"
+    className="cancel-btn"
+    onClick={() =>
+      navigate("/home")
+    }
+  >
 
-              }
+    ✕ Cancel
 
-            </button>
+  </button>
+
+</div>
 
             {/* MESSAGE */}
 
