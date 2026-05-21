@@ -212,11 +212,17 @@ function Login() {
           </label>
 
           <div className="password-box">
+<input
+  type={
+    showPassword
+      ? "text"
+      : "password"
+  }
 
-           <input
-  type="password"
   placeholder="Enter password"
+
   value={password}
+
   onKeyDown={(e) => {
 
     if (e.key === " ") {
@@ -226,6 +232,7 @@ function Login() {
     }
 
   }}
+
   onChange={(e) =>
 
     setPassword(

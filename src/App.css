@@ -35,13 +35,17 @@
 }
 body{
 
+  margin:0;
+
+  padding:0;
+
   font-family:'Inter',sans-serif;
 
-  background:var(--bg);
+  background:#060816;
 
   color:white;
 
-  overflow-x:hidden;
+  overflow:hidden;
 }
 
 
@@ -231,21 +235,25 @@ button{
 /* LOGIN */
 .login-page{
 
+  width:100vw;
+
   height:100vh;
 
   display:flex;
 
-  justify-content:center;
-
   align-items:center;
 
-  background:linear-gradient(
-    90deg,
-    #04111d,
-    #0c1022
-  );
+  justify-content:center;
 
   overflow:hidden;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(109,93,252,0.15),
+      transparent 35%
+    ),
+    #060816;
 }
 
 .login-card{
