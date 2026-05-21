@@ -54,9 +54,9 @@ function UserProvider({ children }) {
 
     setTasks((prev) => [
 
-      ...prev,
-
       task,
+
+      ...prev,
 
     ]);
 
@@ -80,6 +80,20 @@ function UserProvider({ children }) {
 
   }
 
+  // DELETE TASK
+
+  function deleteTask(id) {
+
+    const filteredTasks = tasks.filter(
+
+      (task) => task.id !== id
+
+    );
+
+    setTasks(filteredTasks);
+
+  }
+
   return (
 
     <UserContext.Provider
@@ -97,6 +111,8 @@ function UserProvider({ children }) {
         addTask,
 
         updateTask,
+
+        deleteTask,
 
       }}
 

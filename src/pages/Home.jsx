@@ -221,16 +221,41 @@ function Home() {
   }
 
   // EDIT TASK
+// SAVE EDITED TASK
 
-  function editTask(task) {
+function saveEditedTask(updatedTask) {
 
-    navigate("/add-task", {
+  const updatedTasks = tasks.map(
 
-      state: task,
+    (task) =>
 
-    });
+      task.id === updatedTask.id
 
-  }
+        ? updatedTask
+
+        : task
+
+  );
+
+  setTasks(updatedTasks);
+
+  localStorage.setItem(
+
+    "tasks",
+
+    JSON.stringify(
+
+      updatedTasks.filter(
+
+        (task) => task.id > 200
+
+      )
+
+    )
+
+  );
+
+}
 
   // SEARCH + FILTER
 
@@ -328,7 +353,7 @@ function Home() {
 
           <p>
 
-            to Task Manager Dashboard
+            to Task Manager 
 
           </p>
 
@@ -523,20 +548,19 @@ function Home() {
 
           {paginatedTasks.map((task) => (
 
-            <TaskCard
+           <TaskCard
 
-              key={task.id}
+  key={task.id}
 
-              taskData={task}
+  taskData={task}
 
-              deleteTask={deleteTask}
+  deleteTask={deleteTask}
 
-              updateStatus={updateStatus}
+  updateStatus={updateStatus}
 
-              editTask={editTask}
+  saveEditedTask={saveEditedTask}
 
-            />
-
+/>
           ))}
 
         </div>

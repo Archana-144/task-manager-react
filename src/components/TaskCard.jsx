@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import "../App.css";
 
 function TaskCard({
@@ -8,105 +10,285 @@ function TaskCard({
 
   updateStatus,
 
-  editTask
+  editTask,
+
+  saveEditedTask
 
 }) {
+
+  const [isEditing, setIsEditing] =
+
+    useState(false);
+
+  const [editedTask, setEditedTask] =
+
+    useState(taskData.task);
+
+  const [editedStatus, setEditedStatus] =
+
+    useState(taskData.status);
+
+  const [editedAssigned, setEditedAssigned] =
+
+    useState(taskData.assignedTo);
 
   return (
 
     <div className="task-card">
 
-      {/* TASK ID */}
+      {
 
-      <p className="task-id">
+        isEditing ? (
 
-        #{taskData.id}
+          <div className="inline-edit">
 
-      </p>
+            {/* TASK ID */}
 
-      {/* TASK TITLE */}
+            <p className="edit-task-id">
 
-      <h2 className="task-title">
+              #{taskData.id}
 
-        {taskData.task}
+            </p>
 
-      </h2>
+            {/* TASK NAME */}
 
-      {/* STATUS + ASSIGNED ROW */}
+            <label>
 
-      <div className="task-status-assigned">
+              TASK NAME
 
-        {/* STATUS BADGE */}
+            </label>
 
-        <div
+            <input
+              type="text"
+              value={editedTask}
+              onChange={(e) =>
+                setEditedTask(
+                  e.target.value
+                )
+              }
+              className="edit-input"
+            />
 
-          className={`status-badge ${
+            {/* STATUS + ASSIGNED */}
 
-            taskData.status === "Completed"
+            <div className="edit-row">
 
-              ? "completed"
+              {/* STATUS */}
 
-              : taskData.status === "Hold"
+              <div className="edit-group">
 
-              ? "hold"
+                <label>
 
-              : "inprogress"
+                  STATUS
 
-          }`}
+                </label>
 
-        >
+                <select
+                  value={editedStatus}
+                  onChange={(e) =>
+                    setEditedStatus(
+                      e.target.value
+                    )
+                  }
+                  className="edit-select"
+                >
 
-          {taskData.status}
+                  <option value="In Progress">
 
-        </div>
+                    In Progress
 
-        {/* ASSIGNED TO */}
+                  </option>
 
-        <p className="assigned-to">
+                  <option value="Completed">
 
-          👤 {taskData.assignedTo || "Unassigned"}
+                    Completed
 
-        </p>
+                  </option>
 
-      </div>
+                  <option value="Hold">
 
-      {/* BUTTONS */}
+                    Hold
 
-      <div className="task-actions">
+                  </option>
 
-        {/* EDIT */}
+                </select>
 
-        <button
+              </div>
 
-          className="edit-btn"
+              {/* ASSIGNED */}
 
-          onClick={() => editTask(taskData)}
+              <div className="edit-group">
 
-        >
+                <label>
 
-          - Edit
+                  ASSIGNED TO
 
-        </button>
+                </label>
 
-        {/* DELETE */}
+                <input
+                  type="text"
+                  value={editedAssigned}
+                  onChange={(e) =>
+                    setEditedAssigned(
+                      e.target.value
+                    )
+                  }
+                  className="edit-input"
+                  placeholder="Enter username"
+                />
 
-        <button
+              </div>
 
-          className="delete-btn"
+            </div>
 
-          onClick={() =>
+            {/* BUTTONS */}
 
-            deleteTask(taskData.id)
+            <div className="inline-buttons">
 
-          }
+              <button
+                className="save-inline-btn"
+                onClick={() => {
 
-        >
+                  saveEditedTask({
 
-         🗑 Delete
+                    ...taskData,
 
-        </button>
+                    task: editedTask,
 
-      </div>
+                    status: editedStatus,
+
+                    assignedTo:
+                      editedAssigned,
+
+                  });
+
+                  setIsEditing(false);
+
+                }}
+              >
+
+                ✓ Save
+
+              </button>
+
+              <button
+                className="cancel-inline-btn"
+                onClick={() =>
+                  setIsEditing(false)
+                }
+              >
+
+                ✕ Cancel
+
+              </button>
+
+            </div>
+
+          </div>
+
+        ) : (
+
+          <>
+
+            {/* TASK ID */}
+
+            <p className="task-id">
+
+              #{taskData.id}
+
+            </p>
+
+            {/* TASK TITLE */}
+
+            <h2 className="task-title">
+
+              {taskData.task}
+
+            </h2>
+
+            {/* STATUS + ASSIGNED */}
+
+            <div className="task-status-assigned">
+
+              {/* STATUS */}
+
+              <div
+
+                className={`status-badge ${
+
+                  taskData.status ===
+
+                  "Completed"
+
+                    ? "completed"
+
+                    : taskData.status ===
+
+                      "Hold"
+
+                    ? "hold"
+
+                    : "inprogress"
+
+                }`}
+
+              >
+
+                {taskData.status}
+
+              </div>
+
+              {/* ASSIGNED */}
+
+              <p className="assigned-to">
+
+                👤 {
+
+                  taskData.assignedTo ||
+
+                  "Unassigned"
+
+                }
+
+              </p>
+
+            </div>
+
+            {/* BUTTONS */}
+
+            <div className="task-actions">
+
+              <button
+                className="edit-btn"
+                onClick={() =>
+                  setIsEditing(true)
+                }
+              >
+
+                ✏ Edit
+
+              </button>
+
+              <button
+                className="delete-btn"
+                onClick={() =>
+                  deleteTask(
+                    taskData.id
+                  )
+                }
+              >
+
+                🗑 Delete
+
+              </button>
+
+            </div>
+
+          </>
+
+        )
+
+      }
 
     </div>
 

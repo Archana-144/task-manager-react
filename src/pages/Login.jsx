@@ -168,14 +168,28 @@ function Login() {
           </label>
 
           <input
-            type="text"
-            placeholder="e.g. Archana Iyar"
-            value={name}
-            onChange={(e) =>
-              setName(e.target.value)
-            }
-          />
+  type="text"
+  placeholder="e.g.Archana BY"
+  value={name}
+  onKeyDown={(e) => {
 
+    if (e.key === " ") {
+
+      e.preventDefault();
+
+    }
+
+  }}
+  onChange={(e) =>
+
+    setName(
+
+      e.target.value.replace(/\s/g, "")
+
+    )
+
+  }
+/>
           {/* EMAIL */}
 
           <label>
@@ -199,18 +213,29 @@ function Login() {
 
           <div className="password-box">
 
-            <input
-              type={
-                showPassword
-                  ? "text"
-                  : "password"
-              }
-              placeholder="Min 6 chars, 1 uppercase, 1 number"
-              value={password}
-              onChange={(e) =>
-                setPassword(e.target.value)
-              }
-            />
+           <input
+  type="password"
+  placeholder="Enter password"
+  value={password}
+  onKeyDown={(e) => {
+
+    if (e.key === " ") {
+
+      e.preventDefault();
+
+    }
+
+  }}
+  onChange={(e) =>
+
+    setPassword(
+
+      e.target.value.replace(/\s/g, "")
+
+    )
+
+  }
+/>
 
             <span
               onClick={() =>
@@ -242,6 +267,13 @@ function Login() {
             {message}
 
           </p>
+          <p className="password-note">
+
+  Password must be 6+ characters
+  with an uppercase letter
+  and a number.
+
+</p>
 
         </form>
 

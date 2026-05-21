@@ -18,13 +18,15 @@ function AddTask() {
 
   const {
 
-  user,
+    user,
 
-  addTask,
+    addTask,
 
-  updateTask
+    updateTask,
 
-} = useContext(UserContext);
+    tasks
+
+  } = useContext(UserContext);
 
   // REDIRECT IF NOT LOGGED IN
 
@@ -65,87 +67,86 @@ function AddTask() {
   const [message, setMessage] = useState("");
 
   // SUBMIT FUNCTION
-// SUBMIT FUNCTION
 
-function handleSubmit(e) {
+  function handleSubmit(e) {
 
-  e.preventDefault();
+    e.preventDefault();
 
-  // VALIDATION
+    // VALIDATION
 
-  if (
+    if (
 
-    task === "" ||
+      task === "" ||
 
-    assignedTo === ""
+      assignedTo === ""
 
-  ) {
+    ) {
 
-    setMessage(
+      setMessage(
 
-      "All fields are required"
+        "All fields are required"
 
-    );
+      );
 
-    return;
+      return;
+
+    }
+
+    // EDIT MODE
+
+    if (existingTask) {
+
+      const updatedTask = {
+
+        ...existingTask,
+
+        task,
+
+        status,
+
+        assignedTo,
+
+      };
+
+      updateTask(updatedTask);
+
+      alert(
+
+        "Task Updated Successfully"
+
+      );
+
+    }
+
+    // ADD MODE
+
+    else {
+
+      const newTask = {
+
+        id: Math.floor(Math.random() * 1000),
+
+        task,
+
+        status,
+
+        assignedTo,
+
+      };
+
+      addTask(newTask);
+
+      alert(
+
+        "Task Added Successfully"
+
+      );
+
+    }
+
+    navigate("/home");
 
   }
-
-  // EDIT MODE
-
-  if (existingTask) {
-
-    const updatedTask = {
-
-      ...existingTask,
-
-      task,
-
-      status,
-
-      assignedTo,
-
-    };
-
-    updateTask(updatedTask);
-
-    alert(
-
-      "Task Updated Successfully"
-
-    );
-
-  }
-
-  // ADD MODE
-
-  else {
-
-    const newTask = {
-
-      id: Date.now(),
-
-      task,
-
-      status,
-
-      assignedTo,
-
-    };
-
-    addTask(newTask);
-
-    alert(
-
-      "Task Added Successfully"
-
-    );
-
-  }
-
-  navigate("/home");
-
-}
 
   return (
 
@@ -155,155 +156,185 @@ function handleSubmit(e) {
 
       {/* PAGE */}
 
-      <div className="add-task-container">
+      <div className="add-task-page">
 
-        <div className="add-task-card">
+        {/* HEADER */}
 
-         {
+        <div className="add-task-header">
 
-  existingTask && (
+          <h1>
 
-    <p className="edit-task-id">
+            {
 
-      #{existingTask.id}
+              existingTask
 
-    </p>
+                ? "Edit Task"
 
-  )
+                : "Add New Task"
 
-}
+            }
 
-<h1>
+          </h1>
 
-  {
+          <p>
 
-    existingTask
+            Fill in the details to create a new task
 
-      ? "Edit Task"
+          </p>
 
-      : "Add New Task"
+        </div>
 
+        {/* CARD */}
+
+        <div className="add-task-container">
+
+          <div className="add-task-card">
+
+            {/* FORM */}
+
+            <form onSubmit={handleSubmit}>
+
+              {/* TASK NAME */}
+
+              <label>
+
+                TASK NAME *
+
+              </label>
+
+              <input
+                type="text"
+                placeholder="Describe the task..."
+                value={task}
+                onChange={(e) =>
+                  setTask(e.target.value)
+                }
+              />
+
+              {/* STATUS + ASSIGNED */}
+
+              {/* STATUS */}
+
+<label>
+
+  STATUS *
+
+</label>
+
+<select
+  value={status}
+  onChange={(e) =>
+    setStatus(e.target.value)
   }
+>
 
-</h1>
+  <option value="In Progress">
 
-          {/* FORM */}
+    In Progress
 
-          <form onSubmit={handleSubmit}>
+  </option>
 
-            {/* TASK NAME */}
+  <option value="Completed">
 
-            <label>
+    Completed
 
-              TASK NAME
+  </option>
 
-            </label>
+  <option value="Hold">
 
-            <input
-              type="text"
-              placeholder="Enter task name"
-              value={task}
-              onChange={(e) =>
-                setTask(e.target.value)
-              }
-            />
+    Hold
 
-            {/* STATUS */}
-<div className="form-row">
+  </option>
 
-  <div>
+</select>
 
-    <label>
+{/* ASSIGN */}
 
-      STATUS
+<label>
 
-    </label>
+  ASSIGN TO *
 
-    <select
-      value={status}
-      onChange={(e) =>
-        setStatus(e.target.value)
-      }
-    >
+</label>
 
-      <option value="In Progress">
+<input
+  type="text"
+  placeholder="Enter team member's name"
+  value={assignedTo}
+  onChange={(e) =>
+    setAssignedTo(e.target.value)
+  }
+/>
 
-        In Progress
+              {/* TASK ID */}
 
-      </option>
+              <div className="task-id-preview">
 
-      <option value="Completed">
+                Task ID will be:
 
-        Completed
+                <span>
 
-      </option>
+                  #
 
-      <option value="Hold">
+                  {
 
-        Hold
+                    existingTask
 
-      </option>
+                      ? existingTask.id
 
-    </select>
+                      : tasks?.length + 1 || 1
 
-  </div>
+                  }
 
-  <div>
+                </span>
 
-    <label>
+              </div>
 
-      ASSIGNED TO
+              {/* BUTTONS */}
 
-    </label>
+              <div className="edit-buttons">
 
-    <input
-      type="text"
-      placeholder="Enter username"
-      value={assignedTo}
-      onChange={(e) =>
-        setAssignedTo(e.target.value)
-      }
-    />
+                <button
+                  className="save-btn"
+                  type="submit"
+                >
 
-  </div>
+                  {
 
-</div>
-            {/* BUTTON */}
+                    existingTask
 
-           <div className="edit-buttons">
+                      ? "✓ Save"
 
-  <button
-    className="save-btn"
-    type="submit"
-  >
+                      : "+ Add Task"
 
-    ✓ Save
+                  }
 
-  </button>
+                </button>
 
-  <button
-    type="button"
-    className="cancel-btn"
-    onClick={() =>
-      navigate("/home")
-    }
-  >
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() =>
+                    navigate("/home")
+                  }
+                >
 
-    ✕ Cancel
+                  Cancel
 
-  </button>
+                </button>
 
-</div>
+              </div>
 
-            {/* MESSAGE */}
+              {/* MESSAGE */}
 
-            <p className="error-message">
+              <p className="error-message">
 
-              {message}
+                {message}
 
-            </p>
+              </p>
 
-          </form>
+            </form>
+
+          </div>
 
         </div>
 
